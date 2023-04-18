@@ -1,12 +1,14 @@
 ﻿namespace Utils;
 
 public static class Utils {
-    public const int MatrixSize = 10000;
+    public const int MatrixSize = 2048;
+    private static readonly Random Random = new(1234);
+
 
     public static int[] GenerateVector(int length) {
         return Enumerable.Range(0, length).AsParallel()
             .Aggregate(new int[length], (array, i) => {
-                    array[i] = new Random().Next(0, 10);
+                    array[i] = Random.Next(0, 10);
                     return array;
                 }
             ).ToArray();
@@ -32,5 +34,37 @@ public static class Utils {
 
             Console.WriteLine();
         }
+
+        Console.WriteLine();
+    }
+    
+    public static int[][] SumMatrix(ref int[][] left, ref int[][] right) {
+        var rows = left.Length;
+        var cols = left[0].Length;
+
+        var res = new int[rows].Select(_ => new int[cols]).ToArray();
+
+        for (var i = 0; i < rows; i++) {
+            for (var j = 0; j < cols; j++) {
+                res[i][j] = left[i][j] + right[i][j];
+            }
+        }
+
+        return res;
+    }    
+    
+    public static bool Equal(ref int[][] left, ref int[][] right) {
+        var rows = left.Length;
+        var cols = left[0].Length;
+
+        for (var i = 0; i < rows; i++) {
+            for (var j = 0; j < cols; j++) {
+                if (left[i][j] != right[i][j]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }
