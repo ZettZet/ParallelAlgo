@@ -63,7 +63,7 @@ void Calculate(int threads) {
 var bSingle = new BenchingSingleThreaded(Calculate);
 
 Console.WriteLine($"{bSingle}\n");
-foreach (var numOfThreads in Enumerable.Range(2, 3).Select(i => (int)Math.Pow(2, i))) {
+foreach (var numOfThreads in Enumerable.Range(1, 3).Select(i => 2 << i)) {
     var bMultiple = new BenchingMultiThreaded(Calculate, numOfThreads, bSingle.Elapsed);
     Console.WriteLine($"{bMultiple}\n");
 }
