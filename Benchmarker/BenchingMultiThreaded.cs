@@ -2,12 +2,14 @@
 
 namespace Benchmarker;
 
-public record BenchingMultiThreaded(Action<int> Calculations, int NumOfThreads, TimeSpan SingleThreaded) {
+public record BenchingMultiThreaded(Action<int> Calculations, int NumOfThreads, TimeSpan SingleThreaded)
+{
     private TimeSpan? _elapsed;
     public TimeSpan Elapsed => _elapsed ??= Invoke();
-    public double SpeedUp => Elapsed.TotalSeconds/ SingleThreaded.TotalSeconds;
+    public double SpeedUp => SingleThreaded.TotalSeconds / Elapsed.TotalSeconds;
     public double Effectiveness => SpeedUp / NumOfThreads;
-    private TimeSpan Invoke() {
+    private TimeSpan Invoke()
+    {
         var timer = Stopwatch.StartNew();
 
         Calculations(NumOfThreads);

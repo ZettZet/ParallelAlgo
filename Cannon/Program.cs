@@ -9,7 +9,8 @@ int[][] MultiplyBlockMatrices(ref int[][] left,
     int leftBlockRow,
     int leftBlockColumn,
     int rightBlockRow,
-    int rightBlockColumn) {
+    int rightBlockColumn)
+{
     var rows = left.Length;
     var cols = left[0].Length;
 
@@ -19,9 +20,12 @@ int[][] MultiplyBlockMatrices(ref int[][] left,
     var rightIInitial = rightBlockRow * bSize;
     var rightJInitial = rightBlockColumn * bSize;
 
-    for (var i = 0; i < bSize; i++) {
-        for (var j = 0; j < bSize; j++) {
-            for (var k = 0; k < bSize; k++) {
+    for (var i = 0; i < bSize; i++)
+    {
+        for (var j = 0; j < bSize; j++)
+        {
+            for (var k = 0; k < bSize; k++)
+            {
                 res[leftIInitial + i][rightJInitial + j] += left[leftIInitial + i][leftJInitial + k] *
                                                             right[rightIInitial + k][rightJInitial + j];
             }
@@ -32,13 +36,13 @@ int[][] MultiplyBlockMatrices(ref int[][] left,
 }
 
 
+
 int[][] left = GenerateMatrix(MatrixSize);
 int[][] right = GenerateMatrix(MatrixSize);
 
-// var result = MultiplyBlockMatrices(ref left, ref right, left.Length, 0, 0, 0, 0);
-
-void Calculate(int threads) {
-    var blockInDimension = threads == 1 ? 1 : 4; // √(p)
+void Calculate(int threads)
+{
+    var blockInDimension = 4; // √(p)
     var (blockSize, _) = Math.DivRem(left.Length, blockInDimension); // n/√(p)
 
 
@@ -48,7 +52,8 @@ void Calculate(int threads) {
         .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
         .SelectMany(k => Enumerable.Range(0, blockInDimension)
             .SelectMany(row => Enumerable.Range(0, blockInDimension)
-                .Select(col => {
+                .Select(col =>
+                {
                     var index = (row + col + k) % blockInDimension;
                     return MultiplyBlockMatrices(ref left, ref right, blockSize, row, index, index, col);
                 })
@@ -61,9 +66,11 @@ void Calculate(int threads) {
 }
 
 var bSingle = new BenchingSingleThreaded(Calculate);
+var temp = bSingle.Elapsed;
 
 Console.WriteLine($"{bSingle}\n");
-foreach (var numOfThreads in Enumerable.Range(1, 3).Select(i => 2 << i)) {
-    var bMultiple = new BenchingMultiThreaded(Calculate, numOfThreads, bSingle.Elapsed);
+foreach (var numOfThreads in Enumerable.Range(1, 3).Select(i => 2 << i))
+{
+    var bMultiple = new BenchingMultiThreaded(Calculate, numOfThreads, temp);
     Console.WriteLine($"{bMultiple}\n");
 }
