@@ -21,7 +21,7 @@ void Calculate(int threads)
                 .Select(col =>
                 {
                     var index = (row + col + k) % blockInDimension;
-                    return MultiplyBlockMatrices(ref left, ref right, blockSize, row, index, index, col);
+                    return MultiplyBlockMatrices(ref left, ref right, blockSize, row, index, index, col, left.Length);
                 })
             )
         )

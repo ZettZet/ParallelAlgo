@@ -1,7 +1,7 @@
 ﻿namespace Utils;
 
 public static class Utils {
-    public const int MatrixSize = 512;
+    public const int MatrixSize = 1024;
     private static readonly Random Random = new(1234);
 
 
@@ -45,11 +45,9 @@ public static class Utils {
         int leftBlockRow,
         int leftBlockColumn,
         int rightBlockRow,
-        int rightBlockColumn) {
-        var rows = left.Length;
-        var cols = left[0].Length;
-
-        var res = new int[bSize].Select(_ => new int[bSize]).ToArray();
+        int rightBlockColumn,
+        int allocateSize) {
+        var res = new int[allocateSize].Select(_ => new int[allocateSize]).ToArray();
         var leftIInitial = leftBlockRow * bSize;
         var leftJInitial = leftBlockColumn * bSize;
         var rightIInitial = rightBlockRow * bSize;
