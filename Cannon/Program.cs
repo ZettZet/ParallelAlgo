@@ -3,40 +3,6 @@ using static Utils.Utils;
 
 Console.OutputEncoding = System.Text.Encoding.Unicode;
 
-int[][] MultiplyBlockMatrices(ref int[][] left,
-    ref int[][] right,
-    int bSize,
-    int leftBlockRow,
-    int leftBlockColumn,
-    int rightBlockRow,
-    int rightBlockColumn)
-{
-    var rows = left.Length;
-    var cols = left[0].Length;
-
-    var res = new int[rows].Select(_ => new int[cols]).ToArray();
-    var leftIInitial = leftBlockRow * bSize;
-    var leftJInitial = leftBlockColumn * bSize;
-    var rightIInitial = rightBlockRow * bSize;
-    var rightJInitial = rightBlockColumn * bSize;
-
-    for (var i = 0; i < bSize; i++)
-    {
-        for (var j = 0; j < bSize; j++)
-        {
-            for (var k = 0; k < bSize; k++)
-            {
-                res[leftIInitial + i][rightJInitial + j] += left[leftIInitial + i][leftJInitial + k] *
-                                                            right[rightIInitial + k][rightJInitial + j];
-            }
-        }
-    }
-
-    return res;
-}
-
-
-
 int[][] left = GenerateMatrix(MatrixSize);
 int[][] right = GenerateMatrix(MatrixSize);
 

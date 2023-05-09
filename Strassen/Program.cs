@@ -57,21 +57,21 @@ int[][] Strassen(ref int[][] left, ref int[][] right) {
     res_22 = SumMatrix(ref res_22, ref v_2);
     res_22 = SubtractMatrix(ref res_22, ref h_2);
 
-    result = PutMatrixInBlock(ref res_11, ref result, 0, 0);
-    result = PutMatrixInBlock(ref res_22, ref result, 1, 1);
-    result = PutMatrixInBlock(ref res_12, ref result, 0, 1);
-    result = PutMatrixInBlock(ref res_21, ref result, 1, 0);
+    result = PutBlockInMatrix(ref res_11, ref result, 0, 0);
+    result = PutBlockInMatrix(ref res_22, ref result, 1, 1);
+    result = PutBlockInMatrix(ref res_12, ref result, 0, 1);
+    result = PutBlockInMatrix(ref res_21, ref result, 1, 0);
 
     return result;
 }
 
-const int testMatrixSize = 16;
+const int testMatrixSize = 128;
 
-int[][] left = GenerateMatrix(MatrixSize);
-int[][] right = GenerateMatrix(MatrixSize);
+int[][] left = GenerateMatrix(testMatrixSize);
+int[][] right = GenerateMatrix(testMatrixSize);
 
 
 var strassen = Strassen(ref left, ref right);
-var cannon = MultiplyBlockMatrices(ref left, ref right, MatrixSize, 0, 0, 0, 0);
+var cannon = MultiplyBlockMatrices(ref left, ref right, testMatrixSize, 0, 0, 0, 0);
 
 Console.WriteLine(Equal(ref strassen, ref cannon));
